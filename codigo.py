@@ -1,3 +1,4 @@
+from select import select
 from typing import Optional
 from sqlmodel import Field, Session, SQLModel, create_engine
 
@@ -6,17 +7,6 @@ a = "antes de interactuar con la base de datos "
 b = "Medida 1:"
 c = "Medida 2:"
 d = "Medida 3:"
-e = "antes de comentar la sesion mostrar ID "
-f = "antes de comentar la sesion "
-g = "Medida 1 ID:"
-h = "Medida 2 ID:"
-i = "Medida 3 ID:"
-k = "Despues de comentar la sesion mostar los valores"
-l = "Valor de Medida 1:"
-m = "Valor de Medida 2:"
-n = "Valor de Medida 3:"
-ñ = "Despues actualizar medidas"
-o = "Despues de que la sesion se cierre"
 
 class Medidas(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -51,40 +41,19 @@ def create_medidas():
 
         session.commit()
 
-        print(f)
-        print(b, Kilometros) #Ahora esta caducado hasta que se actualize 
-        print(c, Gramos)
-        print(d, Litros)
-
-        print(e)
-        print(g, Kilometros.id) # puede detectar que estamos tratando de acceder a los datos, luego está actualmente asociado con una sesión y se marca como caducado.
-        print(h, Gramos.id)
-        print(i, Litros.id)
-
-        print(k)
-        print(l, Kilometros.Sistema_SI) #no obtiene datos adicionales y no ejecuta SQL adicional 
-        print(m, Gramos.Sistema_SI)
-        print(n, Litros.Sistema_SI)
-
-        session.refresh(Kilometros) #session usará el motor para ejecuar el SQL 
-        session.refresh(Gramos)
-        session.refresh(Litros)
-
-        print(ñ)
-        print(b, Kilometros)
-        print(c, Gramos)
-        print(d, Litros)
-
-    print(o)
-    print(b, Kilometros)
-    print(c, Gramos)
-    print(d, Litros)
+def seleccion_medidas():
+    with Session(engine) as session:
+        estado = select(Medidas) .where(Medidas.Sistema_SI == "1.60")
+        resultado = session.exec(estado)
+        for medida in resultado:
+            print(medida)
 
 
 
 def main():
     create_db_and_tables()
     create_medidas()
+    seleccion_medidas()
 
 if __name__ == "__main__":
     create_db_and_tables()
