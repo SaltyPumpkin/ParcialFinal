@@ -52,21 +52,21 @@ def create_medidas():
         session.commit()
 
         print(f)
-        print(b, Kilometros) #sigue teniendo la misma informacion no a cambiado
+        print(b, Kilometros) #Ahora esta caducado hasta que se actualize 
         print(c, Gramos)
         print(d, Litros)
 
         print(e)
-        print(g, Kilometros.id)
+        print(g, Kilometros.id) # puede detectar que estamos tratando de acceder a los datos, luego está actualmente asociado con una sesión y se marca como caducado.
         print(h, Gramos.id)
         print(i, Litros.id)
 
         print(k)
-        print(l, Kilometros.Sistema_SI)
+        print(l, Kilometros.Sistema_SI) #no obtiene datos adicionales y no ejecuta SQL adicional 
         print(m, Gramos.Sistema_SI)
         print(n, Litros.Sistema_SI)
 
-        session.refresh(Kilometros)
+        session.refresh(Kilometros) #session usará el motor para ejecuar el SQL 
         session.refresh(Gramos)
         session.refresh(Litros)
 
